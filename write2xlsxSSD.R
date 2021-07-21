@@ -110,7 +110,7 @@ setColWidths(
 if(input$doGrps){
   addWorksheet(wb = wb, sheetName = "ANOVA", gridLines = TRUE)
   outStyle <- createStyle(
-    fontName = "Courier",
+    fontName = "Calibri",
     fontSize = 18
   )
   writeData(wb,
@@ -123,7 +123,7 @@ if(input$doGrps){
   
   addWorksheet(wb = wb, sheetName = "Group Analysis", gridLines = TRUE)
   outStyle <- createStyle(
-    fontName = "Courier",
+    fontName = "Calibri",
     fontSize = 18
     )
   writeData(wb,
