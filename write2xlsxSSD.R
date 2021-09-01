@@ -1,5 +1,7 @@
 wb <- openxlsx::createWorkbook()
 addWorksheet(wb = wb, sheetName = "Data Listing", gridLines = FALSE)
+my_style <- createStyle(fontName = "Courier", fontSize = "18")
+
 
 # Output the raw data
 unitSTR <- paste0("(",input$units,")")
@@ -19,9 +21,10 @@ if(input$doGrps){
             startCol = 1,startRow = 2,colNames = FALSE)
 }
 
-headerStyle <- createStyle(fontSize = 20,textDecoration = "bold")
+headerStyle <- createStyle(fontSize = 20, fontName = "Courier", textDecoration = "bold")
 speciesStyle <- createStyle(
   fontSize = 18,
+  fontName = "Courier",
   textDecoration = c("italic")
 )
 
@@ -40,7 +43,7 @@ getPlacesFMT <- function(x){
 #getPlacesFMT(testData$responses/1000)
 #getPlacesFMT(testData$responses*1000)
 
-numFMT <- openxlsx::createStyle(fontSize=18,numFmt = getPlacesFMT(testData$responses))
+numFMT <- openxlsx::createStyle(fontSize=18, fontName = "Courier", numFmt = getPlacesFMT(testData$responses))
 
 ### Format the numeric values (decimal places) and italics for species
 addStyle(wb = wb,sheet = 1,style = speciesStyle,rows = 2+(1:nrow(testData)),
@@ -61,23 +64,25 @@ print("I am printing noparams")
 print(RES.DF.noparms)
 RES.parms <- RES.DF[-nrow(RES.DF),(6:7)]
 print(RES.parms)
-writeData(wb = wb,sheet = 1,x = RES.DF.noparms,startCol = SC.res,startRow = 3,colNames = FALSE)
-writeData(wb = wb,sheet = 1,x = as.data.frame(rbind(c("Distribution","P",names(RES.DF.noparms)[3],"LowerCL","UpperCL","AD GOF", "Confidence Level"))),
+writeData(wb = wb,sheet = 1, x = RES.DF.noparms,startCol = SC.res,startRow = 3,colNames = FALSE)
+writeData(wb = wb,sheet = 1, x = as.data.frame(rbind(c("Distribution","P",names(RES.DF.noparms)[3],"LowerCL","UpperCL","AD GOF", "Confidence Level"))),
           startCol = SC.res,startRow = 1,colNames = FALSE)
-writeData(wb = wb,sheet = 1,x = as.data.frame(rbind(c("","",unitSTR,unitSTR,unitSTR,"p-value"))),
+writeData(wb = wb,sheet = 1, x = as.data.frame(rbind(c("","",unitSTR,unitSTR,unitSTR,"p-value"))),
           startCol = SC.res,startRow = 2,colNames = FALSE)
 
 #params to right, for completeness
-writeData(wb = wb,sheet = 1,x = RES.parms,startCol = SC.res+10,startRow = 3,colNames = FALSE)
-writeData(wb = wb,sheet = 1,x = as.data.frame(rbind(c("Parameters:","Location","Scale"))),
-          startCol = SC.res+9,startRow = 1,colNames = FALSE)
-writeData(wb = wb,sheet = 1,x = as.data.frame(rbind(c("(log scale)","(log scale)"))),
-          startCol = SC.res+10,startRow = 2,colNames = FALSE)
+
+#writeData(wb = wb,sheet = 1,x = RES.parms,startCol = SC.res+10,startRow = 3,colNames = FALSE)
+#writeData(wb = wb,sheet = 1,x = as.data.frame(rbind(c("Parameters:","Location","Scale"))),
+#          startCol = SC.res+9,startRow = 1,colNames = FALSE)
+#writeData(wb = wb,sheet = 1,x = as.data.frame(rbind(c("(log scale)","(log scale)"))),
+#          startCol = SC.res+10,startRow = 2,colNames = FALSE)
 
 ### format numeric output
 for(i in SC.res + 1:(ncol(RES.DF.noparms)-1)){
   colStyle <- createStyle(
     fontSize = 18,
+    fontName = "Courier",
     numFmt = getPlacesFMT(RES.DF.noparms[,i-(SC.res-1)])
   )
   addStyle(wb = wb,sheet = 1,style = colStyle,rows = 2+(1:nrow(RES.DF.noparms)),cols = i)
@@ -86,20 +91,21 @@ print(RES.parms)
 for(i in (1:2)){
   colStyle <- createStyle(
     fontSize = 18,
+    fontName = "Courier",
     numFmt = getPlacesFMT(RES.parms[,i])
   )
   addStyle(wb = wb,sheet = 1,style = colStyle,rows = 2+(1:nrow(RES.parms)),cols = i+SC.res+10-1)
 }
 
 # row label of results
-addStyle(wb = wb,sheet = 1,style = createStyle(fontSize=18),
+addStyle(wb = wb,sheet = 1,style = createStyle(fontSize=18, fontName = "Courier"),
          rows = 2+(1:nrow(RES.DF)),cols = SC.res,gridExpand = TRUE,stack = TRUE)
 # all first row is bold/size
 addStyle(wb = wb,sheet = 1,style = headerStyle,rows=1,cols = 1:20,stack = TRUE)
 # right-align numeric headers
-addStyle(wb = wb,sheet = 1,style = createStyle(halign = "right"),rows=1,cols = c(2,(SC.res+1):20),stack = TRUE)
+addStyle(wb = wb,sheet = 1,style = createStyle(halign = "right", fontName = "Courier"),rows=1,cols = c(2,(SC.res+1):20),stack = TRUE)
 # right-align units in 2nd row
-addStyle(wb = wb,sheet = 1,style = createStyle(fontSize=18,halign = "right"),rows=2,cols = 1:20,stack = TRUE)
+addStyle(wb = wb,sheet = 1,style = createStyle(fontSize=18, fontName = "Courier", halign = "right"),rows=2,cols = 1:20,stack = TRUE)
 
 setColWidths(
   wb = wb,
@@ -110,7 +116,7 @@ setColWidths(
 if(input$doGrps){
   addWorksheet(wb = wb, sheetName = "ANOVA", gridLines = TRUE)
   outStyle <- createStyle(
-    fontName = "Calibri",
+    fontName = "Courier",
     fontSize = 18
   )
   writeData(wb,
@@ -123,7 +129,7 @@ if(input$doGrps){
   
   addWorksheet(wb = wb, sheetName = "Group Analysis", gridLines = TRUE)
   outStyle <- createStyle(
-    fontName = "Calibri",
+    fontName = "Courier",
     fontSize = 18
     )
   writeData(wb,
@@ -131,6 +137,7 @@ if(input$doGrps){
             sheet="Group Analysis",
             startRow=2)
   addStyle(wb = wb,sheet = "Group Analysis",style = outStyle,cols = 1:100,rows=1:100,gridExpand = TRUE)
+  
   writeData(wb,
             x=structure(confintDF,names=c("Estimate","LCL.95","UCL.95")),
             sheet="Group Analysis",
@@ -183,11 +190,18 @@ if(input$doGrps){
 }
 
 if(doLeaveOneOut){
-addWorksheet(wb = wb,sheetName = "Normal Leave Out")
+  addWorksheet(wb = wb,sheetName = "Normal Leave Out")
+  outStyle <- createStyle(
+    fontName = "Courier",
+    fontSize = 18
+  )
 writeData(wb,
           x=data.frame(Normal=c("Normal","Leave One Out Analysis")),
           sheet="Normal Leave Out",
           startRow=1)
+print("I am doing Normal Leave Out")
+print(fit.out.norm)
+names(fit.out.norm)
 #writeWorksheet(wb.out,data.frame(Normal=c(tagString,"Leave One Out Analysis")),sheet=tagString,startRow=rowCount)
 writeData(wb = wb,sheet = "Normal Leave Out",x = as.data.frame(rbind(names(fit.out.norm))),
           startCol = 1,startRow = 4,colNames = FALSE)
@@ -199,8 +213,13 @@ writeData(wb,
           startRow=6,
           startCol=1,
           colNames = FALSE)
+addStyle(wb = wb,sheet = "Normal Leave Out",style = outStyle,cols = 1:100,rows=1:100,gridExpand = TRUE)
 
 addWorksheet(wb = wb,sheetName = "Logistic Leave Out")
+  outStyle <- createStyle(
+    fontName = "Courier",
+    fontSize = 18
+  )
 writeData(wb,
           x=data.frame(Logistic=c("Logistic","Leave One Out Analysis")),
           sheet="Logistic Leave Out",
@@ -216,10 +235,17 @@ writeData(wb,
           startRow=6,
           startCol=1,
           colNames = FALSE)
+addStyle(wb = wb,sheet = "Logistic Leave Out",style = outStyle,cols = 1:100,rows=1:100,gridExpand = TRUE)
 }
+
+print("I am doing Add one in")
 
 if(doAddOneIn){
   addWorksheet(wb,sheetName = "AddOneIn")
+  outStyle <- createStyle(
+    fontName = "Courier",
+    fontSize = 18
+  )
   writeData(wb,x = data.frame(AddOne=c("AddOneIn","Add One In Analysis")),
             sheet="AddOneIn",startRow=1)
   #writeWorksheet(wb.out,data.frame(AddOne=c(tagString,"Add One In Analysis")),sheet=tagString,startRow=rowCount)
@@ -229,7 +255,10 @@ if(doAddOneIn){
             startCol = 1,startRow = 6,colNames = FALSE)
   writeData(wb,x = fit.out[,-1],
             sheet="AddOneIn",startRow=7,startCol=1,colNames = FALSE)
+  addStyle(wb = wb,sheet = "AddOneIn",style = outStyle,cols = 1:100,rows=1:100,gridExpand = TRUE)
+  
 }
+print(fit.out)
 
 # if(input$doAvg){
 #   addWorksheet(wb,sheetName = "ModelAvg")
