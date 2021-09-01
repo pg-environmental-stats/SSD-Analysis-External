@@ -201,14 +201,14 @@ writeData(wb,
           startRow=1)
 print("I am doing Normal Leave Out")
 print(fit.out.norm)
-names(fit.out.norm)
+print(names(fit.out.norm))
 #writeWorksheet(wb.out,data.frame(Normal=c(tagString,"Leave One Out Analysis")),sheet=tagString,startRow=rowCount)
-writeData(wb = wb,sheet = "Normal Leave Out",x = as.data.frame(rbind(names(fit.out.norm))),
+writeData(wb = wb,sheet = "Normal Leave Out",x = as.data.frame(rbind(names(fit.out.norm[,-c(7:8)]))),
           startCol = 1,startRow = 4,colNames = FALSE)
 writeData(wb = wb,sheet = "Normal Leave Out",x = data.frame(X1="",X2=unitSTR,X3="",X4=unitSTR,X5=unitSTR,X6=unitSTR),
           startCol = 1,startRow = 5,colNames = FALSE)
 writeData(wb,
-          x=fit.out.norm,
+          x=fit.out.norm[,-c(7:8)],
           sheet="Normal Leave Out",
           startRow=6,
           startCol=1,
@@ -225,12 +225,12 @@ writeData(wb,
           sheet="Logistic Leave Out",
           startRow=1)
 #writeWorksheet(wb.out,data.frame(Normal=c(tagString,"Leave One Out Analysis")),sheet=tagString,startRow=rowCount)
-writeData(wb = wb,sheet = "Logistic Leave Out",x = as.data.frame(rbind(names(fit.out.logis))),
+writeData(wb = wb,sheet = "Logistic Leave Out",x = as.data.frame(rbind(names(fit.out.logis[,-c(7:8)]))),
           startCol = 1,startRow = 4,colNames = FALSE)
 writeData(wb = wb,sheet = "Logistic Leave Out",x = data.frame(X1="",X2=unitSTR,X3="",X4=unitSTR,X5=unitSTR,X6=unitSTR),
           startCol = 1,startRow = 5,colNames = FALSE)
 writeData(wb,
-          x=fit.out.logis,
+          x=fit.out.logis[,-c(7:8)],
           sheet="Logistic Leave Out",
           startRow=6,
           startCol=1,
