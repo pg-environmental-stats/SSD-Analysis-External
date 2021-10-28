@@ -158,8 +158,8 @@ shinyUI(
                       h3("Preview plot (Nonparametric fit):"),
                       conditionalPanel(condition="output.setupComplete",plotOutput("basePlot"))#,
                     ),
-                    tabPanel("Help",uiOutput("helpPanel"), "Guide",uiOutput("guidePanel")),
-                    #tabPanel("Guide",uiOutput("guidePanel")),
+                    tabPanel("Help",uiOutput("helpPanel")),
+                    tabPanel("Guide",uiOutput("guidePanel")),
                     tabPanel("Contacts",
                              strong("Contacts:"),
                              tags$ul(
