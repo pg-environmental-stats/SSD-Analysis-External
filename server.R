@@ -116,6 +116,10 @@ shinyServer(function(input, output, session){
         includeHTML(path = "SSD Analysis Tool.html")
       })
       
+      output$guidePanel <- renderUI({
+        includeHTML(path = "SSD Analysis Tool User Guide.html")
+      })
+      
       #The SSD analysis is now generalized to the point that default var names are unnecessary
       output$defaultVars <- NULL
       if(FALSE)output$defaultVars <- renderUI(HTML(
