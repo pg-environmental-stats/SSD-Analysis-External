@@ -64,7 +64,7 @@ if(file.exists("BV Analysis.xlsx"))unlink("BV Analysis.xlsx")
 
 shinyUI(
   fluidPage(
-    shinyalert::useShinyalert(),  # Sets up shinyalert
+    shinyalert::useShinyalert(force = TRUE),  # Sets up shinyalert
     titlePanel("ES + BMD Tools"),
     sidebarLayout(
       sidebarPanel(
@@ -144,7 +144,7 @@ shinyUI(
         ),
         # https://stackoverflow.com/questions/25062422/restart-shiny-session
         shinyjs::useShinyjs(),                                           # Include shinyjs in the UI
-        shinyjs::extendShinyjs(text = jsResetCode, functions = "reset") # Add the js code to the page
+        shinyjs::extendShinyjs(text = jsResetCode, functions = c("winprint")) # Add the js code to the page
       ),
       mainPanel(
         ### I think this should work for any analysis:  a view of the input data before selections,
@@ -159,7 +159,32 @@ shinyUI(
                       conditionalPanel(condition="output.setupComplete",plotOutput("basePlot"))#,
                     ),
                     tabPanel("Help",uiOutput("helpPanel")),
-                    tabPanel("Guide",uiOutput("guidePanel")),
+
+                    tabPanel("User Guide",uiOutput("guidePanel"),
+                             img(src = "Picture1.png",
+                                              #as a part of the webpage display, by default this file is looked for in www
+                                              height = 225, width = 300,align="center")),
+
+                    # tabPanel("Help Guide",uiOutput("guidePanel"),
+                    #          img(src = "Picture1.png",
+                    #              #as a part of the webpage display, by default this file is looked for in www
+                    #              height = 225, width = 300,align="center")),
+
+                    # tabPanel("User Help Guide",
+                    #          strong("Using SSD Analysis Tool"),
+                    #          tags$ul(
+                    #            strong(tags$li("Step 1: Upload Data: This tool uses a simple copy-paste process for data input.  
+                    #                           We recommend that data be set up in Excel or similar where the rectangular 
+                    #                           region containing the data are copied and then paste into the input field.")),
+                    #            tags$li("Stats expert: Gregory Carr (carr.gj@pg.com)"),
+                    #            tags$li("Stats expert: Christian Geneus (geneus.cj@pg.com)"),
+                    #            tags$li("Alternate: Joel Chaney (chaney.jg@pg.com)")
+                    #          ),
+                    #          img(src = "PG-DMS.jpg",
+                    #              #as a part of the webpage display, by default this file is looked for in www
+                    #              height = 100)
+                    # ),
+
                     tabPanel("Contacts",
                              strong("Contacts:"),
                              tags$ul(
